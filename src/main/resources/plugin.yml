@@ -1,0 +1,4 @@
+name: ActionBarAPI+
+version: '1.0'
+main: com.me.actionBarAPI.ActionBarAPI
+api-version: '1.21'
