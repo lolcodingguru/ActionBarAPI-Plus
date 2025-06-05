@@ -2,6 +2,7 @@ package com.me.actionBarAPI.events;
 
 import com.me.actionBarAPI.taskHandlers.reception;
 import com.me.actionBarAPI.utils.priorityHandling;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -10,22 +11,21 @@ import org.bukkit.event.HandlerList;
 
 import java.util.List;
 
-public class ActionBarSentEvent extends Event implements Cancellable {
+public class ActionBarStartedEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
     private boolean cancelled;
-
     private final Player player;
     private final String message;
     private final int duration;
     private final reception.Styles style;
-    private final List<String> colors;
+    private final List<ChatColor> colors;
     private final priorityHandling.Priority priority;
     private final Sound sound;
 
-    public ActionBarSentEvent(Player player, String message, int duration, reception.Styles style, List<String> colors, priorityHandling.Priority priority, Sound sound) {
-        cancelled=false;
+    public ActionBarStartedEvent(Player player, String message, int duration, reception.Styles style, List<ChatColor> colors, priorityHandling.Priority priority, Sound sound) {
+        this.cancelled=false;
         this.player=player;
         this.message=message;
         this.duration=duration;
@@ -50,7 +50,7 @@ public class ActionBarSentEvent extends Event implements Cancellable {
         return style;
     }
 
-    public List<String> getColors() {
+    public List<ChatColor> getColors() {
         return colors;
     }
 
@@ -67,10 +67,6 @@ public class ActionBarSentEvent extends Event implements Cancellable {
         return handlers;
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
     @Override
     public boolean isCancelled() {
         return cancelled;
@@ -78,6 +74,7 @@ public class ActionBarSentEvent extends Event implements Cancellable {
 
     @Override
     public void setCancelled(boolean b) {
-        this.cancelled = b;
+        this.cancelled=b;
+
     }
 }

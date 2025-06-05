@@ -3,16 +3,18 @@
 // 2 - Other invalid usage.
 // 3 - Exception error
 
-package com.me.actionBarAPI.tempTasks;
+package com.me.actionBarAPI.taskHandlers;
 
 import com.me.actionBarAPI.utils.priorityHandling;
-import org.bukkit.Registry;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 public class reception {
 
-    public boolean doesSoundExist(Sound sound) {
+    public static boolean doesSoundExist(Sound sound) {
         try {
             Sound.valueOf(sound.name());
             return true;
@@ -21,7 +23,7 @@ public class reception {
         }
     }
 
-    public static int tempTaskRequest(Player player, String message, int duration, Styles style, priorityHandling.Priority priority, Sound sound) {
+    public static int tempTaskRequest(taskType type, Player player, String message, int duration, Styles style, List<ChatColor> colors, priorityHandling.Priority priority, Sound sound) {
         if (player != null && duration >= 0 && style != null && doesSoundExist(sound)) {
             try {
                 switch (style) {
@@ -43,5 +45,6 @@ public class reception {
     }
 
 public enum Styles {rolling, rainbow, flashing}
+public enum taskType {permanent, temporary}
 
 }

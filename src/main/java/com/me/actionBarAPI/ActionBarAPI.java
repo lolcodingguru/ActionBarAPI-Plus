@@ -29,19 +29,17 @@
 package com.me.actionBarAPI;
 
 import com.me.actionBarAPI.events.ActionBarSentEvent;
-import com.me.actionBarAPI.tempTasks.reception;
+import com.me.actionBarAPI.events.ActionBarStartedEvent;
+import com.me.actionBarAPI.taskHandlers.reception;
 import com.me.actionBarAPI.utils.logging;
 import com.me.actionBarAPI.utils.priorityHandling;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
-import com.me.actionBarAPI.tempTasks.reception;
 
 import java.util.*;
 
@@ -76,14 +74,48 @@ public final class ActionBarAPI extends JavaPlugin {
 
     public void sendActionBar(Player player, String message, int duration, reception.Styles style, List<String> colors, priorityHandling.Priority priority, Sound sound) {
 
-        ActionBarSentEvent event = new ActionBarSentEvent(player, message, duration, priority);
+
+        ActionBarSentEvent event = new ActionBarSentEvent(player, message, duration, style, colors, priority, sound);
+        List<ChatColor> finalColors= colorListBuild(colors);
+        if(!reception.doesSoundExist(sound)) {
+            logging.log(logging.LogLevel.WARNING, "[ActionBarAPI+] The requested sound does not exist. Sound cancelled.");
+            sound=null;
+        }
+        Bukkit.getPluginManager().callEvent(event);
+        if(event.isCancelled()) {
+        } else {
+            switch (reception.tempTaskRequest(reception.taskType.temporary,player, message, duration, style, finalColors, priority, sound)) {
+                case 0:
+                    logging.log(logging.LogLevel.DEBUG, "[ActionBarAPI+] Temporary task was called successfully.");
+                case 1:
+                    logging.log(logging.LogLevel.WARNING, "[ActionBarAPI+] Temporary action bar task was called with invalid style option. Cancelled.");
+                case 2:
+                    logging.log(logging.LogLevel.WARNING, "[ActionBarAPI+] Temporary action bar task was called with invalid usage. Cancelled.");
+                case 3:
+                    logging.log(logging.LogLevel.ERROR, "[ActionBarAPI+] Temporary action bar call task resulted in a exception error. Cancelled.");
+            }
+        }
+    }
+
+    public void startActionBar(Player player, String message, int duration, reception.Styles style, List<String> colors, priorityHandling.Priority priority, Sound sound){
+
+
+        List<ChatColor> finalColors = colorListBuild(colors);
+        if(!reception.doesSoundExist(sound)) {
+            logging.log(logging.LogLevel.WARNING, "[ActionBarAPI+] The requested sound does not exist. Sound cancelled.");
+            sound=null;
+        }
+        ActionBarStartedEvent event = new ActionBarStartedEvent(player, message, duration, style, finalColors, priority, sound);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) {
         } else {
-            colorListBuild(colors);
-            if (reception.tempTaskRequest(player, message, duration, style, priority, sound)==1) {
-                logging.log(logging.LogLevel.WARNING, "[ActionBarAPI+] Temporary task was called with invalid style option. ");
+            switch (reception.tempTaskRequest(reception.taskType.permanent,player, message, duration, style, finalColors, priority, sound)) {
+                case 0:
+                    logging.log(logging.LogLevel.DEBUG, "[ActionBarAPI+] Permanent task was called successfully.");
+                case 1:
+                    logging.log(logging.LogLevel.WARNING, "[ActionBarAPI+] Permanent action bar task was called with invalid style option. Cancelled.");
             }
         }
+
     }
 }
