@@ -1,4 +1,12 @@
-name: ActionBarAPI+
+name: ActionBarAPI-Plus
 version: '1.0'
-main: com.me.actionBarAPI.ActionBarAPI
-api-version: '1.21'
+main: com.codingguru.actionBarAPI.testplugin.Main
+api-version: '1.13'
+description: ActionBarAPI-Plus
+author: codingguru
+
+commands:
+  actionbarapiplus:
+    description: ActionBarAPI+ commands
+    usage: /actionbarapiplus <subcommand>
+    permission: actionbarapiplus.runtest

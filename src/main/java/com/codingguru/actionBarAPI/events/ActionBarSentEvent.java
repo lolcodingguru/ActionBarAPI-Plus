@@ -1,7 +1,7 @@
-package com.me.actionBarAPI.events;
+package com.codingguru.actionBarAPI.events;
 
-import com.me.actionBarAPI.taskHandlers.reception;
-import com.me.actionBarAPI.utils.priorityHandling;
+import com.codingguru.actionBarAPI.taskHandlers.reception;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -9,6 +9,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ActionBarSentEvent extends Event implements Cancellable {
 
@@ -20,19 +21,23 @@ public class ActionBarSentEvent extends Event implements Cancellable {
     private final String message;
     private final int duration;
     private final reception.Styles style;
-    private final List<String> colors;
-    private final priorityHandling.Priority priority;
+    private final List<ChatColor> colors;
     private final Sound sound;
+    private final UUID taskId; // Unique identifier for the task
 
-    public ActionBarSentEvent(Player player, String message, int duration, reception.Styles style, List<String> colors, priorityHandling.Priority priority, Sound sound) {
+    public ActionBarSentEvent(Player player, String message, int duration, reception.Styles style, List<ChatColor> colors, Sound sound) {
+        this(player, message, duration, style, colors, sound, UUID.randomUUID());
+    }
+
+    public ActionBarSentEvent(Player player, String message, int duration, reception.Styles style, List<ChatColor> colors, Sound sound, UUID taskId) {
         cancelled=false;
         this.player=player;
         this.message=message;
         this.duration=duration;
         this.style=style;
         this.colors=colors;
-        this.priority=priority;
         this.sound=sound;
+        this.taskId=taskId;
     }
 
     public Player getPlayer() {
@@ -50,16 +55,17 @@ public class ActionBarSentEvent extends Event implements Cancellable {
         return style;
     }
 
-    public List<String> getColors() {
+    public List<ChatColor> getColors() {
         return colors;
     }
 
-    public priorityHandling.Priority getPriority() {
-        return priority;
-    }
 
     public Sound getSound() {
         return sound;
+    }
+
+    public UUID getTaskId() {
+        return taskId;
     }
 
     @Override
