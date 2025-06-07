@@ -20,27 +20,12 @@ I created this assuming that I will optimize it and fix any issues I encounter a
 ## Installation
 
 ### Adding as a dependency
-#### Maven
-```xml
-<dependency>
-    <groupId>com.codingguru</groupId>
-    <artifactId>actionBarAPI-plus</artifactId>
-    <version>1.0</version>
-    <scope>provided</scope>
-</dependency>
-```
-
-#### Gradle
-```groovy
-dependencies {
-    compileOnly 'com.codingguru:actionBarAPI-plus:1.0'
-}
-```
+There is no Maven or Gradle Deployment at the moment.
 
 ### Manual Installation
-1. Download the latest release from the [releases page](https://github.com/yourusername/ActionBarAPI-Plus/releases)
-2. Place the JAR file in your server's `plugins` folder
-3. Restart your server
+1. Download the latest release from the spigot page.
+2. Add the JAR file to your project's dependencies/libraries in your IDE. 
+3. Initialize like shown below
 
 ## API Documentation
 
@@ -180,6 +165,8 @@ ActionBarTaskStoppedEvent
 ## Usage Examples
 
 ### Basic Usage Example
+There is a video showcasing the result of this usage example.
+
 
 ```java
 // Import necessary classes
